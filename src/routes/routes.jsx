@@ -4,6 +4,8 @@ import App from "../App";
 import SingleBlog from "../components/SingleBlog";
 import CreateBlogForm from "../components/CreateBlogForm";
 import EditBlogForm from "../components/EditBlogForm";
+import Authors from "../components/Authors";
+import AuthorPages from "../components/AuthorPages";
 
 export const router = createBrowserRouter([
   {
@@ -26,6 +28,14 @@ export const router = createBrowserRouter([
       {
         path: "/blogs/:blogId",
         element: <SingleBlog />,
+      },
+      {
+        path: "/authors",
+        element: <Authors />,
+      },
+      {
+        path: "/users/:userId",
+        element: <AuthorPages />,
       },
     ],
   },

@@ -1,37 +1,30 @@
-import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import {
-  fetchBlogs,
-  selectAllBlogs,
-  selectStatus,
-} from "../reducers/blogSlice";
 import ShowTime from "./ShowTime";
 import ShowAuthor from "./ShowAuthor";
 import ReactionButtons from "./ReactionButtons";
-import { useEffect } from "react";
+import { useMemo } from "react";
 
 import Spinner from "./Spinner";
+import { useGetBlogsQuery } from "../api/apiSlice";
 const BlogsList = () => {
+  const {
+    data: blogs = [],
+    isLoading,
+    isSuccess,
+    isError,
+    error,
+  } = useGetBlogsQuery();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const blogs = useSelector(selectAllBlogs);
-
-  const blogStatus = useSelector(selectStatus);
-  const error = useSelector((state) => state.error);
-  useEffect(() => {
-    if (blogStatus === "idle") {
-      dispatch(fetchBlogs());
-    }
-  }, [blogStatus, dispatch]);
-
+  const sortedBlogs = useMemo(() => {
+    const sortedBlogs = blogs.slice();
+    sortedBlogs.sort((a, b) => b.date.localeCompare(a.date));
+    return sortedBlogs;
+  }, [blogs]);
   let content;
-  if (blogStatus === "loading") {
+  if (isLoading) {
     content = <Spinner text="بارگذاری ..." />;
-  } else if (blogStatus === "success") {
-    const orderedBlogs = blogs
-      .slice()
-      .sort((a, b) => b.date.localeCompare(a.date));
-    content = orderedBlogs.map((blog) => (
+  } else if (isSuccess) {
+    content = sortedBlogs.map((blog) => (
       <article className="blog-excerpt" key={blog.id}>
         <h3>{blog.title}</h3>
         <div>
@@ -45,7 +38,7 @@ const BlogsList = () => {
         </Link>
       </article>
     ));
-  } else if (blogStatus === "failed") {
+  } else if (isError) {
     content = <div>{error}</div>;
   }
   return (

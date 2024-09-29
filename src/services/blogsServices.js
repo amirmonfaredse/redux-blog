@@ -17,7 +17,14 @@ export const getUser = (userId) => {
   const url = `${SERVER_URL}/users/${userId}`;
   return axios.get(url);
 };
-
+export const deleteUser = (userId) => {
+  const url = `${SERVER_URL}/users/${userId}`;
+  return axios.delete(url);
+};
+export const createUser = (user) => {
+  const url = `${SERVER_URL}/users`;
+  return axios.post(url, user);
+};
 export const createBlog = (blog) => {
   const url = `${SERVER_URL}/blogs`;
   return axios.post(url, blog);

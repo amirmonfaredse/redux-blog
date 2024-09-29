@@ -1,45 +1,39 @@
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { addNewBlog } from "../reducers/blogSlice";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { selectAllUsers } from "../reducers/userSlice";
 import { nanoid } from "@reduxjs/toolkit";
+import { useAddNewBlogMutation } from "../api/apiSlice";
 const CreateBlogForm = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [userId, setUserId] = useState("");
-  const [requestStatus, setRequestStatus] = useState("idle");
 
+  const [addNewBlog, { isLoading }] = useAddNewBlogMutation();
   const users = useSelector(selectAllUsers);
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const onTitleChange = (e) => setTitle(e.target.value);
   const onContentChange = (e) => setContent(e.target.value);
   const onAuthorChange = (e) => setUserId(e.target.value);
-  const canSave =
-    [title, content, userId].every(Boolean) && requestStatus === "idle";
+  const canSave = [title, content, userId].every(Boolean) && !isLoading;
 
   const handleSubmitForm = async () => {
     if (canSave) {
       try {
-        setRequestStatus("pendeing");
-        await dispatch(
-          addNewBlog({
-            id: nanoid(),
-            date: new Date().toISOString(),
-            title,
-            content,
-            user: userId,
-            reactions: {
-              like: 0,
-              thumsUp: 0,
-              helpless: 0,
-              sad: 0,
-              thinking: 0,
-            },
-          })
-        );
-        console.log(userId);
+        await addNewBlog({
+          id: nanoid(),
+          date: new Date().toISOString(),
+          title,
+          content,
+          user: userId,
+          reactions: {
+            like: 0,
+            thumbsUp: 0,
+            helpless: 0,
+            sad: 0,
+            thinking: 0,
+          },
+        }).unwrap();
 
         setTitle("");
         setContent("");
@@ -47,9 +41,7 @@ const CreateBlogForm = () => {
         navigate("/");
       } catch (error) {
         console.error("Failed To save Blog", error);
-      } finally {
-        setRequestStatus("idle");
-      }
+      } 
     }
   };
   return (

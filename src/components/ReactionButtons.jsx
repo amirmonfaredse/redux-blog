@@ -4,7 +4,7 @@ import { reactionAdded } from "../reducers/blogSlice";
 
 const reactionEmoji = {
   like: "❤️",
-  thumsUp: "👍",
+  thumbsUp: "👍",
   helpless: "😣",
   sad: "😒",
   thinking: "🤔",

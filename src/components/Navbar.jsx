@@ -10,6 +10,9 @@ const Navbar = () => {
             <Link to="/" className="button">
               خانه
             </Link>
+            <Link to="/authors" className="button">
+              نویسندگان
+            </Link>
           </div>
         </div>
       </section>
