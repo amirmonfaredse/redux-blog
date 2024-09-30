@@ -2,10 +2,27 @@ import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import { selectUserById } from "../reducers/userSlice";
 import { selectUserBlogs } from "../reducers/blogSlice";
+import { useMemo } from "react";
+import { createSelector } from "@reduxjs/toolkit";
+import { useGetBlogsQuery } from "../api/apiSlice";
 const AuthorPages = () => {
   const { userId } = useParams();
   const user = useSelector((state) => selectUserById(state, userId));
-  const userBlogs = useSelector((state) => selectUserBlogs(state, userId));
+  const selectUserBlogs = useMemo(() => {
+    const emptyArray = [];
+    return createSelector(
+      (res) => res.data,
+      (res, userId) => userId,
+      (data, userId) =>
+        data?.filter((blog) => blog.user === userId) ?? emptyArray
+    );
+  }, []);
+  const { userBlogs } = useGetBlogsQuery(undefined, {
+    selectFromResult: (result) => ({
+      ...result,
+      userBlogs: selectUserBlogs(result, userId),
+    }),
+  });
   const blogTitles = userBlogs.map((blog) => (
     <li
       key={blog.id}

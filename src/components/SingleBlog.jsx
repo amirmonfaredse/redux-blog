@@ -3,16 +3,16 @@ import Spinner from "./Spinner";
 import ShowAuthor from "./ShowAuthor";
 import ShowTime from "./ShowTime";
 import ReactionButtons from "./ReactionButtons";
-import { useGetBlogQuery } from "../api/apiSlice";
+import { useDeleteBlogMutation, useGetBlogQuery } from "../api/apiSlice";
 const SingleBlog = () => {
   const { blogId } = useParams();
   const { data: blog, isFetching, isSuccess } = useGetBlogQuery(blogId);
 
   const navigate = useNavigate();
-  // const blog = useSelector((state) => selectBlogById(state, blogId));
-  const handleDelete = () => {
+  const [deleteBlog] = useDeleteBlogMutation();
+  const handleDelete = async () => {
     if (blog) {
-      // dispatch(deleteApiBlog(blog.id));
+      await deleteBlog(blogId);
       navigate("/");
     }
   };
@@ -40,7 +40,11 @@ const SingleBlog = () => {
           ویرایش پست
         </Link>
         <ReactionButtons blog={blog} />
-        <button className="muted-button" style={{ marginRight: 15 }}>
+        <button
+          className="muted-button"
+          style={{ marginRight: 15 }}
+          onClick={handleDelete}
+        >
           حذف پست
         </button>
       </article>

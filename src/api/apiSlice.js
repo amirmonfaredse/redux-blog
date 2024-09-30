@@ -32,27 +32,12 @@ export const apiSlice = createApi({
       }),
       invalidatesTags: (result, error, arg) => [{ type: "BLOG", id: arg.id }],
     }),
-    getUsers: builder.query({
-      query: () => "/users",
-      providesTags: (result = [], error, arg) => [
-        "USER",
-        ...result.map(({ id }) => ({ type: "USER", id })),
-      ],
-    }),
-    addNewUser: builder.mutation({
-      query: (initialUser) => ({
-        url: "/users",
-        method: "POST",
-        body: initialUser,
-      }),
-      invalidatesTags: ["USER"],
-    }),
-    removeUser: builder.mutation({
-      query: (userId) => ({
-        url: `/users/${userId}`,
+    deleteBlog: builder.mutation({
+      query: (blogId) => ({
+        url: `/blogs/${blogId}`,
         method: "DELETE",
       }),
-      invalidatesTags: ["USER"],
+      invalidatesTags: ["BLOG"],
     }),
   }),
 });
@@ -62,7 +47,5 @@ export const {
   useGetBlogQuery,
   useAddNewBlogMutation,
   useEditBlogMutation,
-  useGetUsersQuery,
-  useAddNewUserMutation,
-  useRemoveUserMutation
+  useDeleteBlogMutation,
 } = apiSlice;

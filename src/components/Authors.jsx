@@ -1,16 +1,18 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { nanoid } from "@reduxjs/toolkit";
+import { useSelector } from "react-redux";
 import {
+  selectAllUsers,
   useAddNewUserMutation,
-  useGetUsersQuery,
-  useRemoveUserMutation,
-} from "../api/apiSlice";
-
+  useDeleteUserMutation,
+} from "../reducers/userSlice";
+import { nanoid } from "@reduxjs/toolkit";
 const Authors = () => {
   const [user, setUser] = useState("");
+
+  const authors = useSelector(selectAllUsers);
   const [addNewUser] = useAddNewUserMutation();
-  const { data: authors = [] } = useGetUsersQuery();
+  const [deleteUser] = useDeleteUserMutation();
   const onUserChage = (e) => setUser(e.target.value);
   const canSave = Boolean(user);
   const handleSubmitForm = async () => {
@@ -24,7 +26,7 @@ const Authors = () => {
     }
   };
   const handleDelete = (userId) => {
-    // dispatch(deleteApiUser(userId));
+    deleteUser(userId);
   };
   return (
     <>

@@ -97,34 +97,6 @@
         "sad": 0,
         "thinking": 0
       }
-    },
-    {
-      "id": "t3CAGsqVJHFPuEJv-OFWm",
-      "date": "2024-09-28T14:48:28.984Z",
-      "title": "اتو فچ",
-      "content": "فچ اتو",
-      "user": "qf-kz1xz4rO5XL1BSK3Nq",
-      "reactions": {
-        "like": 0,
-        "thumbsUp": 0,
-        "helpless": 0,
-        "sad": 0,
-        "thinking": 0
-      }
-    },
-    {
-      "id": "RMLviWmpZzsrmCr1CuzVL",
-      "date": "2024-09-28T14:52:30.525Z",
-      "title": "کش بی اعتبار 2 - ادیت بی اعتبار شده",
-      "content": "بی اعتبار شو",
-      "user": "txnBlOEVPaP-84xS_i9mn",
-      "reactions": {
-        "like": 0,
-        "thumbsUp": 0,
-        "helpless": 0,
-        "sad": 0,
-        "thinking": 0
-      }
     }
   ],
   "users": [
@@ -147,14 +119,6 @@
     {
       "id": "8sRo4JimBP840f1BGPW18",
       "fullName": "مهدی"
-    },
-    {
-      "id": "QDGT7a21X61asEHBJHGoj",
-      "fullName": "معراج"
-    },
-    {
-      "id": "ByrwtNeYuGOStFAe41x27",
-      "fullName": "علی مراد"
     }
   ]
 }
